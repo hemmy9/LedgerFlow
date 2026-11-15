@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">LedgerFlow</string>
+    <string name="auth_tagline">Bank-synced spending clarity</string>
+    <string name="auth_headline">Take control of every dollar across your accounts</string>
+    <string name="auth_feature_sync_title">Bank &amp; Statement Sync</string>
+    <string name="auth_feature_sync_desc">Connect accounts via Plaid Open Banking or import bank CSV statements in seconds.</string>
+    <string name="auth_feature_cat_title">Automatic Categorization</string>
+    <string name="auth_feature_cat_desc">Smart merchant matching and custom rules keep your spending neatly organized.</string>
+    <string name="auth_feature_budget_title">Monthly Budget Pacing</string>
+    <string name="auth_feature_budget_desc">Track category limits and cash flow in real time across devices.</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="auth_privacy_note">Encrypted cloud sync scoped strictly to your Google account</string>
+    <string name="cd_auth_hero">Editorial fintech illustration of layered bank cards</string>
+    <string name="cd_empty_ledger">Minimalist illustration of a green wallet and ledger</string>
+
+    <string name="nav_overview">Overview</string>
+    <string name="nav_transactions">Activity</string>
+    <string name="nav_accounts">Accounts</string>
+    <string name="nav_budgets">Budgets</string>
+
+    <string name="action_add_transaction">Add Transaction</string>
+    <string name="action_sync_bank">Sync Bank</string>
+    <string name="action_import_csv">Import CSV</string>
+    <string name="action_add_account">Add Account</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="action_retry">Retry</string>
+</resources>

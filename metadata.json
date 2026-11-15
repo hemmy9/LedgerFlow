@@ -1,0 +1,6 @@
+{
+  "name": "LedgerFlow",
+  "description": "Personal finance tracker that syncs with bank accounts, imports statements, and automatically categorizes spending.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

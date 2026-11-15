@@ -1,0 +1,179 @@
+{
+  "entities": {
+    "BankAccount": {
+      "title": "BankAccount",
+      "description": "A connected or manual bank, card, cash, or investment account belonging to a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "name": { "type": "string", "description": "Display name of the account." },
+        "institutionName": { "type": "string", "description": "Financial institution name." },
+        "accountType": {
+          "type": "string",
+          "enum": ["checking", "savings", "credit", "investment", "cash"],
+          "description": "Type of account."
+        },
+        "mask": { "type": "string", "description": "Last 4 digits or short identifier." },
+        "balanceCents": { "type": "integer", "description": "Current balance in integer cents." },
+        "currency": { "type": "string", "description": "ISO 4217 currency code (e.g. USD)." },
+        "syncSource": {
+          "type": "string",
+          "enum": ["manual", "csv_import", "plaid"],
+          "description": "Origin of account synchronization."
+        },
+        "plaidItemId": { "type": "string", "description": "Plaid item ID if linked via Plaid." },
+        "plaidAccountId": { "type": "string", "description": "Plaid account ID if linked via Plaid." },
+        "plaidCursor": { "type": "string", "description": "Last transactions sync cursor." },
+        "lastSyncedAtMillis": { "type": "integer", "description": "Epoch millis of last sync." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp." }
+      },
+      "required": [
+        "userId",
+        "name",
+        "institutionName",
+        "accountType",
+        "mask",
+        "balanceCents",
+        "currency",
+        "syncSource",
+        "plaidItemId",
+        "plaidAccountId",
+        "plaidCursor",
+        "lastSyncedAtMillis",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PlaidConnection": {
+      "title": "PlaidConnection",
+      "description": "Private Plaid item connection credentials scoped strictly to the owning user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "institutionId": { "type": "string", "description": "Plaid institution identifier." },
+        "institutionName": { "type": "string", "description": "Institution display name." },
+        "accessToken": { "type": "string", "description": "Plaid item access token." },
+        "cursor": { "type": "string", "description": "Incremental /transactions/sync cursor." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp." }
+      },
+      "required": [
+        "userId",
+        "institutionId",
+        "institutionName",
+        "accessToken",
+        "cursor",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SpendingTransaction": {
+      "title": "SpendingTransaction",
+      "description": "A categorized financial transaction linked to a user account.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "accountId": { "type": "string", "description": "Parent BankAccount document ID." },
+        "merchantName": { "type": "string", "description": "Normalized merchant or payee name." },
+        "rawDescription": { "type": "string", "description": "Original bank statement description." },
+        "amountCents": { "type": "integer", "description": "Positive amount in integer cents." },
+        "direction": {
+          "type": "string",
+          "enum": ["expense", "income", "transfer"],
+          "description": "Transaction cashflow direction."
+        },
+        "categoryId": { "type": "string", "description": "Assigned spending category identifier." },
+        "dateMillis": { "type": "integer", "description": "Transaction posting date in epoch millis." },
+        "source": {
+          "type": "string",
+          "enum": ["manual", "csv_import", "plaid"],
+          "description": "Import/creation source."
+        },
+        "externalId": { "type": "string", "description": "Deduplication key from bank feed or CSV." },
+        "isAutoCategorized": { "type": "boolean", "description": "Whether category was auto-assigned." },
+        "isReviewed": { "type": "boolean", "description": "Whether the user has reviewed the category." },
+        "note": { "type": "string", "description": "Optional user memo." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp." }
+      },
+      "required": [
+        "userId",
+        "accountId",
+        "merchantName",
+        "rawDescription",
+        "amountCents",
+        "direction",
+        "categoryId",
+        "dateMillis",
+        "source",
+        "externalId",
+        "isAutoCategorized",
+        "isReviewed",
+        "note",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CategoryBudget": {
+      "title": "CategoryBudget",
+      "description": "Monthly spending limit for a given category.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "categoryId": { "type": "string", "description": "Spending category identifier." },
+        "monthlyLimitCents": { "type": "integer", "description": "Monthly limit in integer cents." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp." }
+      },
+      "required": [
+        "userId",
+        "categoryId",
+        "monthlyLimitCents",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CategoryRule": {
+      "title": "CategoryRule",
+      "description": "User-defined keyword rule to auto-categorize matching merchant descriptions.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "keyword": { "type": "string", "description": "Uppercase keyword to match in merchant/description." },
+        "categoryId": { "type": "string", "description": "Target spending category identifier." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server creation timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server update timestamp." }
+      },
+      "required": [
+        "userId",
+        "keyword",
+        "categoryId",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/accounts/{accountId}": {
+      "schema": { "$ref": "#/entities/BankAccount" },
+      "description": "User's connected and manual financial accounts."
+    },
+    "/users/{userId}/plaidItems/{itemId}": {
+      "schema": { "$ref": "#/entities/PlaidConnection" },
+      "description": "User's Plaid item connection tokens and cursors."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/SpendingTransaction" },
+      "description": "User's synced and manual spending transactions."
+    },
+    "/users/{userId}/budgets/{budgetId}": {
+      "schema": { "$ref": "#/entities/CategoryBudget" },
+      "description": "User's monthly category budgets."
+    },
+    "/users/{userId}/categoryRules/{ruleId}": {
+      "schema": { "$ref": "#/entities/CategoryRule" },
+      "description": "User's custom auto-categorization keyword rules."
+    }
+  }
+}
